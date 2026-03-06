@@ -1,0 +1,4 @@
+name = "gamescend-proxy"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+account_id = "acbc3b95846c8c9911495f7f7cf864ca"

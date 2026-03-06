@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GAMESCEND — Level Up Your Life</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #FAFAF8;
+      --primary: #4F46E5;
+      --primary-dark: #3730A3;
+      --amber: #F59E0B;
+      --success: #10B981;
+      --text: #1A1A2E;
+      --muted: #6B7280;
+      --card-bg: #FFFFFF;
+      --border: #E5E7EB;
+      --card-radius: 16px;
+      --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.06);
+      --shadow-hover: 0 4px 12px rgba(0,0,0,0.08), 0 8px 32px rgba(0,0,0,0.08);
+      --t: 0.2s ease;
+    }
+
+    html { height: 100%; }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ── VIEWS ── */
+    .view { min-height: 100vh; }
+
+    /* ── HERO ── */
+    #view-hero {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .hero-nav {
+      padding: 24px 28px;
+      display: flex; align-items: center;
+      justify-content: space-between; flex-wrap: wrap; gap: 6px;
+    }
+    .brand {
+      font-family: 'Sora', sans-serif;
+      font-weight: 800; font-size: 22px;
+      color: var(--primary); letter-spacing: -0.5px;
+    }
+    .tagline { font-size: 12px; color: var(--muted); font-weight: 500; }
+
+    .hero-main {
+      flex: 1; display: flex;
+      align-items: center; justify-content: center;
+      padding: 40px 28px 100px;
+    }
+    .hero-content { text-align: center; max-width: 480px; width: 100%; }
+    .hero-prefix {
+      font-family: 'Sora', sans-serif;
+      font-size: clamp(20px, 5vw, 28px);
+      font-weight: 600; color: var(--text);
+      opacity: 0.65; margin-bottom: 6px;
+    }
+    .carousel-container {
+      height: 72px; display: flex;
+      align-items: center; justify-content: center;
+      overflow: hidden; margin-bottom: 44px;
+    }
+    .carousel-word {
+      font-family: 'Sora', sans-serif;
+      font-size: clamp(26px, 7vw, 42px);
+      font-weight: 800; color: var(--primary);
+      display: block; line-height: 1.1;
+    }
+    .carousel-word.slide-out { animation: slideOutUp 0.32s ease forwards; }
+    .carousel-word.slide-in  { animation: slideInUp  0.38s cubic-bezier(0.16,1,0.3,1) forwards; }
+
+    @keyframes slideOutUp {
+      from { opacity:1; transform:translateY(0); }
+      to   { opacity:0; transform:translateY(-26px); }
+    }
+    @keyframes slideInUp {
+      from { opacity:0; transform:translateY(26px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+
+    /* ── BUTTONS ── */
+    .btn-primary {
+      background: var(--primary); color: #fff;
+      border: none; border-radius: 12px;
+      padding: 14px 28px;
+      font-family: 'Sora', sans-serif; font-size: 15px; font-weight: 700;
+      cursor: pointer; display: inline-block; text-align: center;
+      transition: background var(--t), transform var(--t), box-shadow var(--t);
+    }
+    .btn-primary:hover { background: var(--primary-dark); box-shadow: 0 4px 16px rgba(79,70,229,0.38); }
+    .btn-primary:active { transform: scale(0.97); }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+    .btn-hero { font-size: 17px; padding: 16px 40px; }
+
+    .btn-secondary {
+      background: transparent; color: var(--primary);
+      border: 2px solid var(--primary); border-radius: 12px;
+      padding: 12px 24px;
+      font-family: 'Sora', sans-serif; font-size: 15px; font-weight: 600;
+      cursor: pointer; transition: all var(--t);
+    }
+    .btn-secondary:hover { background: rgba(79,70,229,0.06); }
+    .btn-secondary:active { transform: scale(0.97); }
+
+    /* ── ONBOARDING ── */
+    #view-onboarding {
+      display: flex; flex-direction: column;
+      min-height: 100vh; background: var(--bg);
+    }
+    .onboarding-nav { padding: 24px 28px 0; }
+    .progress-dots {
+      display: flex; gap: 8px;
+      justify-content: center; padding: 20px 0 0;
+    }
+    .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--border); transition: all var(--t);
+    }
+    .dot.active { background: var(--primary); transform: scale(1.35); }
+    .dot.done   { background: var(--success); }
+
+    .onboarding-step {
+      flex: 1; padding: 32px 28px 48px;
+      max-width: 520px; margin: 0 auto; width: 100%;
+    }
+    .step-title {
+      font-family: 'Sora', sans-serif;
+      font-size: clamp(22px, 5vw, 28px); font-weight: 800;
+      color: var(--text); margin-bottom: 28px; line-height: 1.2;
+    }
+    .form-group { margin-bottom: 20px; }
+    .form-group label {
+      display: block; font-weight: 600; font-size: 14px;
+      color: var(--text); margin-bottom: 8px;
+    }
+    .optional { font-weight: 400; color: var(--muted); }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%; padding: 13px 15px;
+      border: 2px solid var(--border); border-radius: 12px;
+      font-family: 'Inter', sans-serif; font-size: 15px;
+      color: var(--text); background: var(--card-bg);
+      outline: none; -webkit-appearance: none;
+      transition: border-color var(--t), box-shadow var(--t);
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(79,70,229,0.12);
+    }
+    .form-group textarea { resize: vertical; }
+    .onboarding-actions { display: flex; gap: 12px; margin-top: 8px; }
+    .onboarding-actions .btn-primary { flex: 1; }
+
+    /* Loading */
+    .loading-screen {
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      min-height: calc(100vh - 80px); text-align: center; gap: 20px;
+    }
+    .spinner-ring {
+      width: 52px; height: 52px;
+      border: 4px solid rgba(79,70,229,0.15);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 0.75s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-title {
+      font-family: 'Sora', sans-serif;
+      font-size: 22px; font-weight: 700; color: var(--text);
+    }
+    .loading-msg { color: var(--muted); font-size: 15px; transition: opacity 0.3s ease; }
+
+    /* ── DASHBOARD ── */
+    #view-dashboard { min-height: 100vh; background: var(--bg); }
+
+    .top-bar {
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 18px;
+      display: flex; align-items: center; gap: 12px;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .top-bar-left { display: flex; flex-direction: column; flex-shrink: 0; min-width: 0; }
+    .db-name {
+      font-family: 'Sora', sans-serif; font-weight: 700;
+      font-size: 13px; color: var(--text);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .db-level-title {
+      font-size: 11px; color: var(--primary); font-weight: 600;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .top-bar-center { flex: 1; min-width: 0; }
+    .xp-label-row {
+      display: flex; justify-content: space-between;
+      font-size: 10px; color: var(--muted); font-weight: 500; margin-bottom: 4px;
+    }
+    .xp-track {
+      background: #E5E7EB; border-radius: 999px;
+      height: 7px; overflow: hidden;
+    }
+    .xp-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), #818CF8);
+      border-radius: 999px;
+      transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
+      width: 0%;
+    }
+    .top-bar-right { flex-shrink: 0; }
+    .streak-badge {
+      font-family: 'Sora', sans-serif; font-weight: 700;
+      font-size: 14px; white-space: nowrap;
+    }
+
+    .identity-banner {
+      position: relative;
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--border);
+      padding: 11px 18px; overflow: hidden;
+    }
+    .id-fill {
+      position: absolute; top: 0; left: 0; height: 100%;
+      background: linear-gradient(90deg, rgba(79,70,229,0.07), rgba(129,140,248,0.03));
+      transition: width 0.8s ease; pointer-events: none;
+    }
+    .id-content {
+      position: relative; z-index: 1;
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    }
+    .id-from  { font-size: 13px; color: var(--muted); font-weight: 500; }
+    .id-arrow { color: var(--primary); font-weight: 700; font-size: 15px; }
+    .id-to    { font-family: 'Sora', sans-serif; font-weight: 700; font-size: 14px; color: var(--primary); }
+
+    .db-body {
+      max-width: 960px; margin: 0 auto;
+      padding: 20px 16px 80px;
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .db-main  { display: flex; flex-direction: column; gap: 16px; }
+    .db-side  { display: flex; flex-direction: column; gap: 16px; }
+
+    /* Cards */
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--card-radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+      transition: box-shadow var(--t), transform var(--t);
+    }
+    .card:hover { box-shadow: var(--shadow-hover); transform: translateY(-1px); }
+
+    .section-h { font-family: 'Sora', sans-serif; font-size: 19px; font-weight: 800; color: var(--text); }
+    .section-label {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--muted);
+    }
+
+    /* Coach card */
+    .coach-card { border-left: 4px solid var(--primary); transition: opacity 0.2s ease, transform 0.2s ease; }
+    .coach-card-hd { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .dismiss-x {
+      background: none; border: none; font-size: 20px;
+      cursor: pointer; color: var(--muted); line-height: 1;
+      padding: 0 2px; transition: color var(--t);
+    }
+    .dismiss-x:hover { color: var(--text); }
+    .coach-text { font-size: 14px; line-height: 1.7; color: var(--text); }
+
+    /* Check-in card */
+    .checkin-card { border-top: 3px solid var(--amber); }
+    .checkin-q { font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 700; margin-bottom: 14px; line-height: 1.3; }
+    .checkin-ta {
+      width: 100%; padding: 11px 13px;
+      border: 2px solid var(--border); border-radius: 10px;
+      font-family: 'Inter', sans-serif; font-size: 14px; color: var(--text);
+      resize: none; outline: none; min-height: 76px;
+      background: var(--bg); margin-bottom: 14px;
+      transition: border-color var(--t);
+    }
+    .checkin-ta:focus { border-color: var(--primary); }
+    .feeling-row { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 14px; }
+    .feel-btn {
+      background: var(--bg); border: 2px solid var(--border);
+      border-radius: 8px; padding: 5px 11px;
+      font-size: 13px; font-weight: 500; cursor: pointer;
+      transition: all var(--t); color: var(--text);
+    }
+    .feel-btn:hover { border-color: var(--primary); background: rgba(79,70,229,0.05); }
+    .feel-btn.selected { border-color: var(--primary); background: var(--primary); color: #fff; }
+    .coach-resp {
+      background: rgba(79,70,229,0.05); border-radius: 10px;
+      padding: 13px; margin-bottom: 14px;
+      font-size: 14px; line-height: 1.65; color: var(--text);
+      border-left: 3px solid var(--primary); display: none;
+    }
+    .checkin-submit { width: 100%; }
+    .checkin-done-row {
+      display: flex; align-items: center; gap: 10px;
+      color: var(--success); font-weight: 600;
+      font-family: 'Sora', sans-serif; margin-bottom: 10px;
+    }
+    .done-icon {
+      width: 24px; height: 24px; background: var(--success);
+      color: #fff; border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700; flex-shrink: 0;
+    }
+    .done-resp { font-size: 14px; line-height: 1.65; color: var(--muted); }
+
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      20% { transform: translateX(-6px); }
+      40% { transform: translateX(6px); }
+      60% { transform: translateX(-4px); }
+      80% { transform: translateX(4px); }
+    }
+    .shake { animation: shake 0.5s ease; }
+
+    /* Quest board */
+    .quest-board { display: flex; flex-direction: column; gap: 12px; }
+    .quest-card {
+      background: var(--card-bg); border-radius: var(--card-radius);
+      box-shadow: var(--shadow); padding: 20px;
+      transition: box-shadow var(--t), transform var(--t), opacity 0.4s ease;
+    }
+    .quest-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+    .quest-card.done { opacity: 0.6; }
+    .quest-card-hd {
+      display: flex; align-items: flex-start;
+      justify-content: space-between; gap: 12px; margin-bottom: 8px;
+    }
+    .quest-title { font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 700; line-height: 1.3; }
+    .quest-check {
+      width: 28px; height: 28px; background: var(--success);
+      color: #fff; border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; flex-shrink: 0;
+    }
+    .quest-desc { font-size: 14px; color: var(--text); line-height: 1.6; margin-bottom: 10px; }
+    .quest-why  { font-size: 13px; color: var(--muted); line-height: 1.55; margin-bottom: 14px; }
+    .quest-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+    .badge { border-radius: 6px; padding: 3px 10px; font-size: 12px; font-weight: 700; font-family: 'Sora', sans-serif; }
+    .badge-amber  { background: rgba(245,158,11,0.12); color: #B45309; }
+    .badge-indigo { border: 1.5px solid rgba(79,70,229,0.3); color: var(--primary); background: rgba(79,70,229,0.06); }
+    .btn-complete {
+      width: 100%; background: transparent;
+      border: 2px solid var(--success); color: var(--success);
+      border-radius: 10px; padding: 10px;
+      font-family: 'Sora', sans-serif; font-size: 14px; font-weight: 700;
+      cursor: pointer; transition: all var(--t);
+    }
+    .btn-complete:hover { background: var(--success); color: #fff; }
+    .btn-complete:active { transform: scale(0.98); }
+    .quest-done-label { text-align: center; color: var(--success); font-weight: 600; font-size: 13px; padding: 6px 0; }
+
+    @keyframes questPop { 0%{transform:scale(1)} 50%{transform:scale(1.02)} 100%{transform:scale(1)} }
+    .quest-popping { animation: questPop 0.55s ease; }
+
+    /* Skill tree */
+    .skill-tree { display: flex; flex-wrap: wrap; gap: 10px; }
+    .skill-pill {
+      background: var(--card-bg); border: 1.5px solid var(--border);
+      border-radius: 12px; padding: 10px 14px;
+      display: flex; flex-direction: column; gap: 6px;
+      flex: 1; min-width: 130px; box-shadow: var(--shadow);
+      transition: box-shadow var(--t);
+    }
+    .skill-pill:hover { box-shadow: var(--shadow-hover); }
+    .skill-name { font-size: 13px; font-weight: 600; color: var(--text); }
+    .skill-bar  { display: flex; gap: 3px; }
+    .skill-seg  { flex: 1; height: 5px; border-radius: 3px; background: var(--border); transition: background 0.3s ease; }
+    .skill-seg.on { background: var(--primary); }
+
+    /* Sidebar */
+    .side-card { background: var(--card-bg); border-radius: var(--card-radius); box-shadow: var(--shadow); padding: 18px; }
+    .side-h { font-family: 'Sora', sans-serif; font-size: 14px; font-weight: 700; margin-bottom: 16px; }
+
+    /* Path map */
+    .path-map  { display: flex; flex-direction: column; }
+    .path-node-wrap { display: flex; flex-direction: column; }
+    .path-node-row  { display: flex; align-items: center; gap: 12px; }
+    .path-node {
+      width: 34px; height: 34px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Sora', sans-serif; font-weight: 700; font-size: 12px;
+      flex-shrink: 0; transition: all var(--t);
+    }
+    .path-node.current { background: var(--primary); color: #fff; animation: nodePulse 2s ease infinite; }
+    .path-node.done    { background: var(--success); color: #fff; }
+    .path-node.locked  { background: var(--border); color: var(--muted); }
+    @keyframes nodePulse {
+      0%,100% { box-shadow: 0 0 0 4px rgba(79,70,229,0.2); }
+      50%      { box-shadow: 0 0 0 8px rgba(79,70,229,0.08); }
+    }
+    .path-lbl { flex: 1; min-width: 0; }
+    .path-lbl-title {
+      font-size: 12px; font-weight: 600; color: var(--text);
+      display: -webkit-box; -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .path-connector { width: 2px; height: 18px; background: var(--border); margin: 3px 0 3px 16px; }
+
+    /* Activity log */
+    .act-log { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .act-item { display: flex; flex-direction: column; gap: 2px; }
+    .act-text  { font-size: 12px; color: var(--text); line-height: 1.4; }
+    .act-time  { font-size: 10px; color: var(--muted); }
+    .act-empty { font-size: 12px; color: var(--muted); font-style: italic; }
+
+    /* ── MODALS ── */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(26,26,46,0.7);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 1000; padding: 20px; backdrop-filter: blur(4px);
+    }
+    @keyframes scaleIn { from{transform:scale(0.85);opacity:0} to{transform:scale(1);opacity:1} }
+
+    .levelup-card {
+      background: var(--card-bg); border-radius: 24px;
+      padding: 40px 32px; max-width: 340px; width: 100%;
+      text-align: center; animation: scaleIn 0.4s cubic-bezier(0.16,1,0.3,1) forwards;
+    }
+    .lu-emoji { font-size: 48px; margin-bottom: 12px; }
+    .lu-title { font-family: 'Sora', sans-serif; font-size: 30px; font-weight: 800; color: var(--primary); margin-bottom: 6px; }
+    .lu-lvl   { font-family: 'Sora', sans-serif; font-size: 17px; font-weight: 700; margin-bottom: 10px; }
+    .lu-desc  { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 26px; }
+
+
+    /* ── DESKTOP LAYOUT ── */
+    @media (min-width: 900px) {
+      .db-body { flex-direction: row; align-items: flex-start; gap: 24px; }
+      .db-main { flex: 1; min-width: 0; }
+      .db-side { width: 272px; flex-shrink: 0; position: sticky; top: 68px; }
+      .hero-nav  { padding: 28px 44px; }
+      .hero-main { padding: 60px 44px 100px; }
+    }
+
+    @media (max-width: 400px) {
+      .top-bar { padding: 9px 12px; gap: 8px; }
+      .feel-btn { padding: 4px 8px; font-size: 12px; }
+      .skill-pill { min-width: 110px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════ HERO ═══════════════════════════════ -->
+<div id="view-hero" class="view">
+  <nav class="hero-nav">
+    <span class="brand">GAMESCEND</span>
+    <span class="tagline">Your goals. Broken down. Leveled up.</span>
+  </nav>
+  <main class="hero-main">
+    <div class="hero-content">
+      <p class="hero-prefix">I want to become a</p>
+      <div class="carousel-container">
+        <span id="carousel-word" class="carousel-word">Graphic Designer</span>
+      </div>
+      <button class="btn-primary btn-hero" onclick="startJourney()">Start My Journey</button>
+    </div>
+  </main>
+</div>
+
+<!-- ═══════════════════════════ ONBOARDING ═══════════════════════════ -->
+<div id="view-onboarding" class="view" style="display:none">
+  <nav class="onboarding-nav">
+    <span class="brand">GAMESCEND</span>
+  </nav>
+  <div id="progress-dots" class="progress-dots">
+    <span id="dot-1" class="dot active"></span>
+    <span id="dot-2" class="dot"></span>
+  </div>
+
+  <!-- Step 1 -->
+  <div id="step-1" class="onboarding-step">
+    <h2 class="step-title">Tell us about yourself</h2>
+    <div class="form-group">
+      <label for="inp-name">What's your name?</label>
+      <input type="text" id="inp-name" placeholder="Your first name" autocomplete="given-name" />
+    </div>
+    <div class="form-group">
+      <label for="inp-age">How old are you?</label>
+      <input type="number" id="inp-age" placeholder="Your age" min="10" max="99" />
+    </div>
+    <div class="form-group">
+      <label for="inp-situation">What are you doing right now?</label>
+      <textarea id="inp-situation" rows="3" placeholder="e.g. Freelancer, college student, working 9-5 at a job I hate..."></textarea>
+    </div>
+    <button class="btn-primary" onclick="goToStep2()">Next &rarr;</button>
+  </div>
+
+  <!-- Step 2 -->
+  <div id="step-2" class="onboarding-step" style="display:none">
+    <h2 class="step-title">Define your destination</h2>
+    <div class="form-group">
+      <label for="inp-dest">What do you want to become?</label>
+      <input type="text" id="inp-dest" placeholder="e.g. Graphic Designer, Marathon Runner, Sober" />
+    </div>
+    <div class="form-group">
+      <label for="inp-why">Why does this matter to you? <span class="optional">(optional)</span></label>
+      <textarea id="inp-why" rows="3" placeholder="In 1-2 sentences, what's driving you?"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="inp-time">How much time can you invest daily?</label>
+      <select id="inp-time">
+        <option value="">Select...</option>
+        <option value="15 minutes">15 minutes</option>
+        <option value="30 minutes">30 minutes</option>
+        <option value="1 hour">1 hour</option>
+        <option value="2+ hours">2+ hours</option>
+      </select>
+    </div>
+    <div class="onboarding-actions">
+      <button class="btn-secondary" onclick="goToStep1()">&larr; Back</button>
+      <button class="btn-primary" onclick="startGeneration()">Generate My Path</button>
+    </div>
+  </div>
+
+  <!-- Step 3: Loading -->
+  <div id="step-loading" class="onboarding-step loading-screen" style="display:none">
+    <div class="spinner-ring"></div>
+    <h2 class="loading-title">Building your personal quest board...</h2>
+    <p id="loading-msg" class="loading-msg">Analyzing your goal...</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ DASHBOARD ═══════════════════════════ -->
+<div id="view-dashboard" class="view" style="display:none">
+
+  <!-- Top bar -->
+  <div class="top-bar">
+    <div class="top-bar-left">
+      <span id="db-name" class="db-name"></span>
+      <span id="db-level-title" class="db-level-title"></span>
+    </div>
+    <div class="top-bar-center">
+      <div class="xp-label-row">
+        <span>XP to next level</span>
+        <span id="xp-text">0 / 500</span>
+      </div>
+      <div class="xp-track"><div id="xp-fill" class="xp-fill"></div></div>
+    </div>
+    <div class="top-bar-right">
+      <span class="streak-badge">&#128293; <span id="streak-num">0</span></span>
+    </div>
+  </div>
+
+  <!-- Identity banner -->
+  <div class="identity-banner">
+    <div id="id-fill" class="id-fill"></div>
+    <div class="id-content">
+      <span id="id-from" class="id-from"></span>
+      <span class="id-arrow">&rarr;</span>
+      <span id="id-to" class="id-to"></span>
+    </div>
+  </div>
+
+  <!-- Body -->
+  <div class="db-body">
+    <div class="db-main">
+
+      <!-- Coach message -->
+      <div id="coach-card" class="card coach-card">
+        <div class="coach-card-hd">
+          <span class="section-label">Coach Message</span>
+          <button class="dismiss-x" onclick="dismissCoach()">&times;</button>
+        </div>
+        <p id="coach-text" class="coach-text"></p>
+      </div>
+
+      <!-- Daily check-in -->
+      <div class="card checkin-card">
+        <div id="ci-open">
+          <p id="ci-question" class="checkin-q"></p>
+          <textarea id="ci-ta" class="checkin-ta" placeholder="What did you do or learn today?"></textarea>
+          <div class="feeling-row">
+            <button class="feel-btn" data-feeling="Flow"    onclick="pickFeeling(this)">&#128293; Flow</button>
+            <button class="feel-btn" data-feeling="Good"    onclick="pickFeeling(this)">&#128522; Good</button>
+            <button class="feel-btn" data-feeling="Okay"    onclick="pickFeeling(this)">&#128528; Okay</button>
+            <button class="feel-btn" data-feeling="Hard"    onclick="pickFeeling(this)">&#128553; Hard</button>
+            <button class="feel-btn" data-feeling="Skipped" onclick="pickFeeling(this)">&#10060; Skipped</button>
+          </div>
+          <div id="ci-coach-resp" class="coach-resp"></div>
+          <button class="btn-primary checkin-submit" id="ci-submit-btn" onclick="submitCheckIn()">Submit Check-In</button>
+        </div>
+        <div id="ci-done" style="display:none">
+          <div class="checkin-done-row">
+            <span class="done-icon">&#10003;</span>
+            <span>Check-in complete for today!</span>
+          </div>
+          <p id="ci-done-resp" class="done-resp"></p>
+        </div>
+      </div>
+
+      <!-- Quest board -->
+      <div>
+        <h2 class="section-h" style="margin-bottom:12px">Active Quests</h2>
+        <div id="quest-board" class="quest-board"></div>
+      </div>
+
+      <!-- Skill tree -->
+      <div>
+        <h2 class="section-h" style="margin-bottom:12px">Your Skills</h2>
+        <div id="skill-tree" class="skill-tree"></div>
+      </div>
+
+    </div><!-- /db-main -->
+
+    <div class="db-side">
+      <!-- Path map -->
+      <div class="side-card">
+        <h3 class="side-h">Your Path</h3>
+        <div id="path-map" class="path-map"></div>
+      </div>
+      <!-- Activity log -->
+      <div class="side-card">
+        <h3 class="side-h">Recent Activity</h3>
+        <ul id="act-log" class="act-log"></ul>
+      </div>
+    </div>
+
+  </div><!-- /db-body -->
+</div><!-- /view-dashboard -->
+
+<!-- ═══════════════════════════ MODALS ═══════════════════════════ -->
+<!-- Level-up -->
+<div id="levelup-modal" class="modal-overlay" style="display:none" onclick="dismissLevelUp()">
+  <div class="levelup-card" onclick="event.stopPropagation()">
+    <div class="lu-emoji">&#127881;</div>
+    <h2 class="lu-title">Level Up!</h2>
+    <p id="lu-lvl" class="lu-lvl"></p>
+    <p id="lu-desc" class="lu-desc"></p>
+    <button class="btn-primary" onclick="dismissLevelUp()">Keep Going</button>
+  </div>
+</div>
+
+
+<script>
+// ═══════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════
+const state = {
+  name: '', age: '', currentSituation: '',
+  destinationTitle: '', whyItMatters: '', dailyTime: '',
+  level: 1,
+  xp: 0,
+  xpThresholds: [0, 500, 1200, 2500, 4500, 7000],
+  streak: 0,
+  lastCheckInDate: null,
+  pathLevels: [],
+  quests: [],
+  skills: [],
+  coachMessage: '',
+  activityLog: [],
+  checkInCompleted: false,
+  checkInResponse: '',
+  selectedFeeling: null,
+  coachDismissed: false,
+};
+
+// ═══════════════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════════════
+function showView(id) {
+  document.querySelectorAll('.view').forEach(v => v.style.display = 'none');
+  document.getElementById(id).style.display = 'block';
+}
+
+function startJourney() {
+  if (carouselTimer) clearInterval(carouselTimer);
+  showView('view-onboarding');
+  goToOnboardingStep(1);
+}
+
+function goToOnboardingStep(step) {
+  document.getElementById('step-1').style.display       = step === 1        ? 'block' : 'none';
+  document.getElementById('step-2').style.display       = step === 2        ? 'block' : 'none';
+  document.getElementById('step-loading').style.display = step === 'loading' ? 'flex'  : 'none';
+  document.getElementById('progress-dots').style.display = step === 'loading' ? 'none' : 'flex';
+  if (step !== 'loading') {
+    document.getElementById('dot-1').className = 'dot ' + (step === 1 ? 'active' : 'done');
+    document.getElementById('dot-2').className = 'dot ' + (step === 2 ? 'active' : '');
+  }
+}
+
+function goToStep2() {
+  const name = document.getElementById('inp-name').value.trim();
+  const age  = document.getElementById('inp-age').value.trim();
+  const sit  = document.getElementById('inp-situation').value.trim();
+  if (!name) return alert('Please enter your name.');
+  if (!age)  return alert('Please enter your age.');
+  if (!sit)  return alert('Please describe your current situation.');
+  state.name = name; state.age = age; state.currentSituation = sit;
+  goToOnboardingStep(2);
+}
+
+function goToStep1() { goToOnboardingStep(1); }
+
+// ═══════════════════════════════════════════════════════
+// CAROUSEL
+// ═══════════════════════════════════════════════════════
+const CAROUSEL_WORDS = [
+  'Graphic Designer', 'Music Producer', 'Software Engineer',
+  'Quit Porn', 'Marathon Runner', 'Speak Japanese', 'Start a Business'
+];
+let carouselIdx = 0;
+let carouselTimer = null;
+
+function initCarousel() {
+  const el = document.getElementById('carousel-word');
+  el.textContent = CAROUSEL_WORDS[0];
+  carouselTimer = setInterval(() => {
+    el.classList.add('slide-out');
+    setTimeout(() => {
+      carouselIdx = (carouselIdx + 1) % CAROUSEL_WORDS.length;
+      el.textContent = CAROUSEL_WORDS[carouselIdx];
+      el.classList.remove('slide-out');
+      el.classList.add('slide-in');
+      setTimeout(() => el.classList.remove('slide-in'), 420);
+    }, 320);
+  }, 2800);
+}
+
+// ═══════════════════════════════════════════════════════
+// ONBOARDING GENERATION
+// ═══════════════════════════════════════════════════════
+let loadingMsgTimer = null;
+const LOADING_MSGS = [
+  'Analyzing your goal...', 'Mapping your path...',
+  'Crafting your quests...', 'Preparing your skill tree...',
+  'Personalizing your experience...'
+];
+
+function startGeneration() {
+  const dest = document.getElementById('inp-dest').value.trim();
+  const why  = document.getElementById('inp-why').value.trim();
+  const time = document.getElementById('inp-time').value;
+  if (!dest) return alert('Please enter what you want to become.');
+  if (!time) return alert('Please select your daily time commitment.');
+  state.destinationTitle = dest;
+  state.whyItMatters = why;
+  state.dailyTime = time;
+  goToOnboardingStep('loading');
+  startLoadingMsgs();
+  generateData();
+}
+
+function startLoadingMsgs() {
+  let i = 0;
+  const el = document.getElementById('loading-msg');
+  el.textContent = LOADING_MSGS[0];
+  loadingMsgTimer = setInterval(() => {
+    i = (i + 1) % LOADING_MSGS.length;
+    el.style.opacity = '0';
+    setTimeout(() => { el.textContent = LOADING_MSGS[i]; el.style.opacity = '1'; }, 280);
+  }, 1800);
+}
+
+async function generateData() {
+  try {
+    const text = await callClaude(buildOnboardingPrompt(), 1800);
+    const data = parseJSON(text);
+    if (!data.pathLevels || !data.quests || !data.skills || !data.coachMessage) throw new Error('bad structure');
+    applyData(data);
+  } catch (e) {
+    console.warn('AI failed, using fallback:', e.message);
+    applyData(getFallback());
+  } finally {
+    clearInterval(loadingMsgTimer);
+    showView('view-dashboard');
+    initDashboard();
+  }
+}
+
+function applyData(d) {
+  state.pathLevels = (d.pathLevels || []).slice(0, 5).map((l, i) => ({
+    level: l.level || i + 1,
+    title: l.title || 'Level ' + (i + 1),
+    description: l.description || ''
+  }));
+  state.quests = (d.quests || []).slice(0, 3).map(q => ({
+    title: q.title || 'Quest',
+    description: q.description || '',
+    whyItMatters: q.whyItMatters || '',
+    xpReward: Math.min(200, Math.max(50, Number(q.xpReward) || 100)),
+    duration: q.duration || 'This week',
+    completed: false
+  }));
+  const rawSkills = d.skills || [];
+  state.skills = rawSkills.slice(0, 5).map(s => ({
+    name: typeof s === 'string' ? s : (s.name || 'Skill'),
+    progress: 0
+  }));
+  state.coachMessage = d.coachMessage || '';
+}
+
+// ═══════════════════════════════════════════════════════
+// CLAUDE API  (routed through Cloudflare Worker proxy)
+// ═══════════════════════════════════════════════════════
+const PROXY_URL = 'https://gamescend-proxy.gamescend.workers.dev';
+
+async function callClaude(prompt, maxTokens = 800) {
+  const res = await fetch(PROXY_URL, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: maxTokens,
+      messages: [{ role: 'user', content: prompt }]
+    })
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.error?.message || 'HTTP ' + res.status);
+  }
+  const data = await res.json();
+  return data.content[0].text;
+}
+
+function buildOnboardingPrompt() {
+  return `You are a personal growth coach AI. Generate a personalized quest system.
+
+User: ${state.name}, age ${state.age}
+Current situation: "${state.currentSituation}"
+Goal — they want to become: "${state.destinationTitle}"
+Why it matters: "${state.whyItMatters || 'not specified'}"
+Daily time: ${state.dailyTime}
+
+Return ONLY raw valid JSON (no markdown fences, no explanation):
+{
+  "pathLevels": [
+    {"level":1,"title":"Short phase title 3-5 words","description":"One sentence describing this phase"},
+    {"level":2,"title":"...","description":"..."},
+    {"level":3,"title":"...","description":"..."},
+    {"level":4,"title":"...","description":"..."},
+    {"level":5,"title":"...","description":"..."}
+  ],
+  "quests": [
+    {"title":"Quest title","description":"Specific actionable instructions","whyItMatters":"One sentence why","xpReward":100,"duration":"Today"},
+    {"title":"...","description":"...","whyItMatters":"...","xpReward":150,"duration":"This week"},
+    {"title":"...","description":"...","whyItMatters":"...","xpReward":75,"duration":"This week"}
+  ],
+  "skills": ["Skill 1","Skill 2","Skill 3","Skill 4","Skill 5"],
+  "coachMessage": "2-sentence direct welcome from a coach who knows their specific goal. Be honest, not generic."
+}`;
+}
+
+function buildCheckInPrompt(text, feeling, questTitle) {
+  return `The user ${state.name} is working toward becoming: "${state.destinationTitle}".
+Started from: "${state.currentSituation}".
+Checked in today. Feeling: ${feeling}. They wrote: "${text || 'nothing specific'}".
+Current quest: "${questTitle}".
+Write an honest, encouraging 2-3 sentence response. No fluff. No emojis. Be real and specific to their goal.`;
+}
+
+function parseJSON(text) {
+  text = text.replace(/```json\s*/g, '').replace(/```\s*/g, '').trim();
+  const s = text.indexOf('{'), e = text.lastIndexOf('}');
+  if (s !== -1 && e !== -1) text = text.slice(s, e + 1);
+  return JSON.parse(text);
+}
+
+// ═══════════════════════════════════════════════════════
+// FALLBACK DATA
+// ═══════════════════════════════════════════════════════
+function getFallback() {
+  const g = state.destinationTitle.toLowerCase();
+  const n = state.name;
+
+  if (/design|graphic|ux|ui|visual/.test(g)) return {
+    pathLevels: [
+      {level:1,title:'The Curious Eye',description:'Exploring design fundamentals and training your visual eye.'},
+      {level:2,title:'The Tool Learner',description:'Building technical skills in design tools and software.'},
+      {level:3,title:'The Project Builder',description:'Taking on real projects and developing your design process.'},
+      {level:4,title:'The Portfolio Creator',description:'Producing professional-quality work and building a portfolio.'},
+      {level:5,title:'The Graphic Designer',description:'Working with clients and operating as a professional designer.'}
+    ],
+    quests: [
+      {title:'Study the Core Design Principles',description:'Research contrast, alignment, repetition, and proximity. Find 5 real logos and identify each principle in them. Write your observations.',whyItMatters:'These four principles underpin every good design decision.',xpReward:75,duration:'Today'},
+      {title:'Complete a Figma Basics Tutorial',description:'Work through the official Figma beginner tutorial. Recreate a simple app screen from scratch.',whyItMatters:'Figma is the industry standard — fluency here opens doors immediately.',xpReward:100,duration:'This week'},
+      {title:'Recreate a Design You Admire',description:'Pick a website or app UI you love and recreate its hero section in Figma as accurately as possible.',whyItMatters:'Copying great work trains your eye faster than any tutorial.',xpReward:150,duration:'This week'}
+    ],
+    skills:['Typography','Color Theory','Figma','Layout & Composition','Brand Identity'],
+    coachMessage:`${n}, design is a skill that compounds when you practice deliberately and consume good work daily. Start by questioning why things look the way they do — that curiosity is your biggest asset.`
+  };
+
+  if (/music|produc|audio|beat|record|sound/.test(g)) return {
+    pathLevels: [
+      {level:1,title:'The Active Listener',description:'Developing your ear and understanding how music is constructed.'},
+      {level:2,title:'The DAW Explorer',description:'Learning your tools and experimenting with sounds and patterns.'},
+      {level:3,title:'The Finisher',description:'Completing tracks and developing a consistent production process.'},
+      {level:4,title:'The Consistent Creator',description:'Producing polished, release-ready music on a regular schedule.'},
+      {level:5,title:'The Music Producer',description:'Working with artists and building a recognizable, sought-after sound.'}
+    ],
+    quests: [
+      {title:'Deconstruct a Track You Love',description:'Pick one song in your target genre. Write down every instrument, sound layer, and structural moment you can identify.',whyItMatters:'Analyzing music trains your ear faster than any tutorial.',xpReward:75,duration:'Today'},
+      {title:'Learn Your DAW Fundamentals',description:'Complete a beginner walkthrough for your DAW (FL Studio, Ableton, or Logic). Make sure you understand recording, MIDI, and basic mixing.',whyItMatters:'Your DAW is your instrument — you need to know it instinctively.',xpReward:100,duration:'This week'},
+      {title:'Finish One Complete Beat',description:'Make a full beat: drums, bass, melody, and a hook idea. Finish it even if it\'s rough. Export and save it.',whyItMatters:'Finishing is a skill most producers never develop. Doing it separates you.',xpReward:150,duration:'This week'}
+    ],
+    skills:['Music Theory','DAW Proficiency','Sound Design','Mixing & EQ','Ear Training'],
+    coachMessage:`${n}, the producers who make it get there by finishing tracks even when they\'re bad. Focus on volume of output early — your taste is already ahead of your skills, and that gap closes through doing.`
+  };
+
+  if (/code|software|engineer|developer|program/.test(g)) return {
+    pathLevels: [
+      {level:1,title:'The Syntax Learner',description:'Picking up programming fundamentals and learning to think in code.'},
+      {level:2,title:'The Problem Solver',description:'Writing small programs and debugging your way through real challenges.'},
+      {level:3,title:'The Project Builder',description:'Building complete projects end-to-end and learning by shipping.'},
+      {level:4,title:'The Competent Dev',description:'Writing production-quality code and contributing to real systems.'},
+      {level:5,title:'The Software Engineer',description:'Building at scale, collaborating on teams, and solving hard problems.'}
+    ],
+    quests: [
+      {title:'Complete Your First Tutorial Module',description:'Work through the first section of freeCodeCamp or The Odin Project. Type every line yourself — no copy-paste.',whyItMatters:'Building the right mental model early saves weeks of confusion later.',xpReward:100,duration:'Today'},
+      {title:'Solve 3 Easy Coding Challenges',description:'Pick 3 easy problems on LeetCode or HackerRank and solve them without hints first. Read explanations after.',whyItMatters:'Problem-solving is the core skill — start training it from day one.',xpReward:75,duration:'This week'},
+      {title:'Build a To-Do App',description:'Build a functional to-do list with add, complete, and delete functionality. Plain HTML, CSS, and JavaScript — no frameworks.',whyItMatters:'Building something real connects all the concepts you\'ve been learning.',xpReward:150,duration:'This week'}
+    ],
+    skills:['Data Structures','Algorithms','Debugging','Version Control','System Design'],
+    coachMessage:`${n}, every senior engineer started exactly where you are. The secret isn\'t talent — it\'s showing up consistently. Thirty minutes every day beats five hours on weekends, every time.`
+  };
+
+  if (/run|marathon|fitness|athlete|gym|strength|triathlon/.test(g)) return {
+    pathLevels: [
+      {level:1,title:'The Starter',description:'Establishing the habit and building a baseline level of fitness.'},
+      {level:2,title:'The Consistent Mover',description:'Training regularly and building cardiovascular and muscular endurance.'},
+      {level:3,title:'The Focused Athlete',description:'Following a structured plan and tracking measurable progress.'},
+      {level:4,title:'The Competitor',description:'Hitting significant milestones and learning to push through limits.'},
+      {level:5,title:'The Marathon Runner',description:'Crossing finish lines and living the lifestyle of a trained athlete.'}
+    ],
+    quests: [
+      {title:'Do Your First 20-Minute Run/Walk',description:'Go outside or on a treadmill. Alternate 2 minutes jogging, 1 minute walking for 20 minutes. Do not stop completely.',whyItMatters:'The first run is the hardest. Every run after this is proof you can do it.',xpReward:75,duration:'Today'},
+      {title:'Map Out a Training Plan',description:'Download a beginner plan (Hal Higdon or Nike Run Club) and block out the first 2 weeks in your calendar as non-negotiable.',whyItMatters:'Structure turns intention into action — motivation alone does not get you to a finish line.',xpReward:100,duration:'This week'},
+      {title:'Run 3 Times This Week',description:'Complete 3 runs this week at any pace and distance. Log each one with distance and time.',whyItMatters:'Consistency in the first month matters more than pace or distance.',xpReward:150,duration:'This week'}
+    ],
+    skills:['Cardiovascular Endurance','Pacing','Recovery','Nutrition','Mental Toughness'],
+    coachMessage:`${n}, most people quit in the first two weeks when it feels awkward and slow. That phase is unavoidable — push through it and everything changes. Your only job right now is to run three times this week.`
+  };
+
+  if (/japanese|spanish|french|mandarin|language|fluent|speak/.test(g)) return {
+    pathLevels: [
+      {level:1,title:'The Absolute Beginner',description:'Learning the script, sounds, and essential survival phrases.'},
+      {level:2,title:'The Foundation Builder',description:'Expanding vocabulary and understanding basic grammar patterns.'},
+      {level:3,title:'The Conversationalist',description:'Holding basic conversations and understanding everyday situations.'},
+      {level:4,title:'The Fluent Speaker',description:'Understanding most content and expressing complex ideas comfortably.'},
+      {level:5,title:'The Near-Native',description:'Consuming native content freely and communicating without mental translation.'}
+    ],
+    quests: [
+      {title:'Learn All 46 Hiragana Characters',description:'Use Anki or a dedicated app to learn every Hiragana character. Test yourself until you recognize each one without hesitation.',whyItMatters:'You cannot read or learn Japanese without this — it is the non-negotiable first step.',xpReward:100,duration:'This week'},
+      {title:'Set Up Anki and Learn 20 Words',description:'Install Anki, add a Core 2000 vocabulary deck, and review your first 20 words to full retention.',whyItMatters:'Vocabulary is the bottleneck. Spaced repetition is the most efficient way to build it.',xpReward:75,duration:'Today'},
+      {title:'Watch 15 Minutes of Native Content',description:'Find a Japanese YouTube channel or show with subtitles. Watch 15 minutes and write down 5 words you want to look up.',whyItMatters:'Daily contact with real language builds intuition no classroom can replicate.',xpReward:50,duration:'Today'}
+    ],
+    skills:['Reading','Listening','Speaking','Vocabulary','Grammar'],
+    coachMessage:`${n}, language learning is measured in years, not weeks. Your only job right now is to make daily contact with Japanese non-negotiable. Everything else follows from that consistency.`
+  };
+
+  if (/business|entrepreneur|startup|founder|company/.test(g)) return {
+    pathLevels: [
+      {level:1,title:'The Idea Validator',description:'Testing assumptions and understanding the problem you want to solve.'},
+      {level:2,title:'The Builder',description:'Creating an MVP and landing your first real customers.'},
+      {level:3,title:'The Operator',description:'Iterating based on feedback and generating early consistent revenue.'},
+      {level:4,title:'The Scaler',description:'Systematizing operations and growing the business deliberately.'},
+      {level:5,title:'The Founder',description:'Running a sustainable business with a team and meaningful impact.'}
+    ],
+    quests: [
+      {title:'Write Your Problem Statement',description:'Write 4-6 sentences: who has the problem, what the problem is specifically, and why current solutions fall short.',whyItMatters:'A sharp problem definition is the foundation everything else is built on.',xpReward:75,duration:'Today'},
+      {title:'Talk to 3 Potential Customers',description:'Have real conversations with 3 people who might experience your problem. Ask questions only — do not pitch.',whyItMatters:'Most failed businesses built something people did not want. Customer discovery prevents this.',xpReward:150,duration:'This week'},
+      {title:'Define Your Riskiest Assumption',description:'Write the one assumption that, if wrong, collapses your whole idea. Then design the cheapest test to validate or kill it.',whyItMatters:'Startups fail by spending months building on unvalidated assumptions.',xpReward:100,duration:'This week'}
+    ],
+    skills:['Customer Discovery','Product Thinking','Sales','Financial Literacy','Execution'],
+    coachMessage:`${n}, the biggest mistake first-time founders make is building before validating. Talk to potential customers this week — your job is to understand their world deeply before you touch any product work.`
+  };
+
+  if (/sober|quit|porn|addict|clean|alcohol|smoking/.test(g)) return {
+    pathLevels: [
+      {level:1,title:'Day One',description:'Making the decision and navigating the first critical days.'},
+      {level:2,title:'Building Momentum',description:'The initial difficulty eases as you establish new daily patterns.'},
+      {level:3,title:'The New Normal',description:'You have built real distance and your identity is shifting.'},
+      {level:4,title:'The Stronger Self',description:'You have overcome major milestones with your tools intact.'},
+      {level:5,title:'The New Chapter',description:'This is who you are now — your old habits no longer define you.'}
+    ],
+    quests: [
+      {title:'Name Your Top 3 Triggers',description:'Write down the 3 specific situations, emotions, or environments most likely to cause a slip. Be honest and specific.',whyItMatters:'You cannot protect against what you have not named — awareness is the first line of defense.',xpReward:100,duration:'Today'},
+      {title:'Design a Replacement Routine',description:'For each trigger you identified, write one specific action you will take instead. Pre-decide this now, before the moment arrives.',whyItMatters:'Willpower depletes. Having a pre-decided plan removes the in-the-moment decision entirely.',xpReward:75,duration:'Today'},
+      {title:'Tell One Person',description:'Tell one trusted person what you are working on and what you need from them. Ask them to check in with you.',whyItMatters:'Accountability is one of the strongest predictors of success in behavior change.',xpReward:150,duration:'This week'}
+    ],
+    skills:['Trigger Awareness','Urge Surfing','Routine Building','Accountability','Mindfulness'],
+    coachMessage:`${n}, what you are doing takes real courage. The first few days will be uncomfortable — your brain will be loud. That discomfort is temporary. Your commitment to this does not have to be.`
+  };
+
+  // Generic
+  return {
+    pathLevels: [
+      {level:1,title:'The Beginning',description:'Exploring your goal and building foundational understanding.'},
+      {level:2,title:'The Foundation',description:'Developing core skills and establishing consistent habits.'},
+      {level:3,title:'The Growth Phase',description:'Practicing regularly and seeing measurable progress.'},
+      {level:4,title:'The Advanced Stage',description:'Producing high-quality output and refining your expertise.'},
+      {level:5,title:'The Destination',description:'Living as the person you set out to become.'}
+    ],
+    quests: [
+      {title:'Define What Success Looks Like',description:`Write exactly what "${state.destinationTitle}" means to you in concrete, measurable terms. What would you be doing differently in 6 months?`,whyItMatters:'A clear destination makes every daily decision easier.',xpReward:75,duration:'Today'},
+      {title:'Find Your Top 3 Learning Resources',description:'Research the best books, courses, or communities for your goal. Choose one and start it this week.',whyItMatters:'Most goals have well-worn paths — find people who have done it and follow their map.',xpReward:100,duration:'This week'},
+      {title:'Take the First Concrete Action',description:'Do one specific, small thing today that moves you toward your goal. Not planning — doing.',whyItMatters:'Action creates momentum. Information without action is just entertainment.',xpReward:150,duration:'Today'}
+    ],
+    skills:['Focus','Self-Discipline','Learning','Consistency','Execution'],
+    coachMessage:`${n}, you have taken the first step by committing to this. The hardest part ahead is not the work — it is building the habit of showing up when motivation fades.`
+  };
+}
+
+// ═══════════════════════════════════════════════════════
+// DASHBOARD INIT
+// ═══════════════════════════════════════════════════════
+function initDashboard() {
+  renderTopBar();
+  renderIdentityBanner();
+  renderCoachCard();
+  renderCheckIn();
+  renderQuestBoard();
+  renderSkillTree();
+  renderPathMap();
+  logActivity('Started journey toward ' + state.destinationTitle);
+}
+
+// ═══════════════════════════════════════════════════════
+// RENDERS
+// ═══════════════════════════════════════════════════════
+function renderTopBar() {
+  document.getElementById('db-name').textContent = state.name;
+  document.getElementById('db-level-title').textContent =
+    state.pathLevels[state.level - 1]?.title || 'Level 1';
+  document.getElementById('streak-num').textContent = state.streak;
+  animateXPBar();
+}
+
+function animateXPBar() {
+  const lo   = state.xpThresholds[state.level - 1];
+  const hi   = state.xpThresholds[Math.min(state.level, 5)];
+  const prog = state.xp - lo;
+  const span = hi - lo;
+  const pct  = Math.min(100, Math.max(0, (prog / span) * 100));
+  document.getElementById('xp-text').textContent = prog + ' / ' + span;
+  setTimeout(() => { document.getElementById('xp-fill').style.width = pct + '%'; }, 60);
+}
+
+function renderIdentityBanner() {
+  document.getElementById('id-from').textContent = state.currentSituation;
+  document.getElementById('id-to').textContent   = state.destinationTitle;
+  const totalXP = state.xpThresholds[5];
+  const pct = Math.min(100, (state.xp / totalXP) * 100);
+  document.getElementById('id-fill').style.width = pct + '%';
+}
+
+function renderCoachCard() {
+  const card = document.getElementById('coach-card');
+  if (state.coachDismissed || !state.coachMessage) { card.style.display = 'none'; return; }
+  document.getElementById('coach-text').textContent = state.coachMessage;
+}
+
+function dismissCoach() {
+  state.coachDismissed = true;
+  const card = document.getElementById('coach-card');
+  card.style.opacity = '0'; card.style.transform = 'translateY(-6px)';
+  setTimeout(() => { card.style.display = 'none'; }, 200);
+}
+
+function renderCheckIn() {
+  const q = document.getElementById('ci-question');
+  q.textContent = 'Did you work toward becoming ' + state.destinationTitle + ' today?';
+  if (state.checkInCompleted) {
+    document.getElementById('ci-open').style.display = 'none';
+    document.getElementById('ci-done').style.display = 'block';
+    document.getElementById('ci-done-resp').textContent = state.checkInResponse;
+  }
+}
+
+function pickFeeling(btn) {
+  document.querySelectorAll('.feel-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  state.selectedFeeling = btn.dataset.feeling;
+}
+
+async function submitCheckIn() {
+  if (!state.selectedFeeling) {
+    const row = document.querySelector('.feeling-row');
+    row.classList.add('shake');
+    setTimeout(() => row.classList.remove('shake'), 500);
+    return;
+  }
+  const btn  = document.getElementById('ci-submit-btn');
+  const text = document.getElementById('ci-ta').value.trim();
+  const activeQuest = state.quests.find(q => !q.completed);
+  const questTitle  = activeQuest ? activeQuest.title : state.destinationTitle;
+
+  btn.disabled = true; btn.textContent = 'Getting coach feedback...';
+
+  try {
+    const resp = await callClaude(buildCheckInPrompt(text, state.selectedFeeling, questTitle), 400);
+    state.checkInResponse = resp.trim();
+  } catch (e) {
+    state.checkInResponse = `You showed up today, ${state.name}. That consistency is exactly what separates people who reach their goals from those who don\'t.`;
+  }
+
+  // Show response inline briefly
+  const respEl = document.getElementById('ci-coach-resp');
+  respEl.innerHTML = '<strong>Coach says:</strong> ' + esc(state.checkInResponse);
+  respEl.style.display = 'block';
+
+  state.checkInCompleted = true;
+  updateStreak();
+  addXP(50, 'Daily check-in');
+
+  setTimeout(() => {
+    document.getElementById('ci-open').style.display = 'none';
+    document.getElementById('ci-done').style.display = 'block';
+    document.getElementById('ci-done-resp').textContent = state.checkInResponse;
+  }, 2200);
+}
+
+function renderQuestBoard() {
+  const board = document.getElementById('quest-board');
+  board.innerHTML = '';
+  state.quests.forEach((q, i) => {
+    const div = document.createElement('div');
+    div.className = 'quest-card' + (q.completed ? ' done' : '');
+    div.id = 'qc-' + i;
+    div.innerHTML = `
+      <div class="quest-card-hd">
+        <h3 class="quest-title">${esc(q.title)}</h3>
+        ${q.completed ? '<span class="quest-check">&#10003;</span>' : ''}
+      </div>
+      <p class="quest-desc">${esc(q.description)}</p>
+      <p class="quest-why"><strong>Why it matters:</strong> ${esc(q.whyItMatters)}</p>
+      <div class="quest-meta">
+        <span class="badge badge-amber">+${q.xpReward} XP</span>
+        <span class="badge badge-indigo">${esc(q.duration)}</span>
+      </div>
+      ${q.completed
+        ? '<div class="quest-done-label">&#10003; Completed</div>'
+        : `<button class="btn-complete" onclick="completeQuest(${i})">Mark Complete</button>`}
+    `;
+    board.appendChild(div);
+  });
+}
+
+function renderSkillTree() {
+  const tree = document.getElementById('skill-tree');
+  tree.innerHTML = '';
+  state.skills.forEach(sk => {
+    const div = document.createElement('div');
+    div.className = 'skill-pill';
+    const segs = Array.from({length: 5}, (_, i) =>
+      `<div class="skill-seg ${i < sk.progress ? 'on' : ''}"></div>`
+    ).join('');
+    div.innerHTML = `<span class="skill-name">${esc(sk.name)}</span><div class="skill-bar">${segs}</div>`;
+    tree.appendChild(div);
+  });
+}
+
+function renderPathMap() {
+  const map = document.getElementById('path-map');
+  map.innerHTML = '';
+  state.pathLevels.forEach((lvl, i) => {
+    const isCur  = lvl.level === state.level;
+    const isDone = lvl.level < state.level;
+    const cls    = isCur ? 'current' : isDone ? 'done' : 'locked';
+    const wrap   = document.createElement('div');
+    wrap.className = 'path-node-wrap';
+    wrap.innerHTML = `
+      <div class="path-node-row">
+        <div class="path-node ${cls}">${isDone ? '&#10003;' : lvl.level}</div>
+        <div class="path-lbl"><span class="path-lbl-title">${esc(lvl.title)}</span></div>
+      </div>
+      ${i < state.pathLevels.length - 1 ? '<div class="path-connector"></div>' : ''}
+    `;
+    map.appendChild(wrap);
+  });
+}
+
+function renderActivityLog() {
+  const log = document.getElementById('act-log');
+  log.innerHTML = '';
+  const entries = state.activityLog.slice(-5).reverse();
+  if (!entries.length) {
+    log.innerHTML = '<li class="act-empty">No activity yet</li>';
+    return;
+  }
+  entries.forEach(e => {
+    const li = document.createElement('li');
+    li.className = 'act-item';
+    li.innerHTML = `<span class="act-text">${esc(e.text)}</span><span class="act-time">${e.time}</span>`;
+    log.appendChild(li);
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+// GAME LOGIC
+// ═══════════════════════════════════════════════════════
+function addXP(amount, reason) {
+  state.xp += amount;
+  logActivity('+' + amount + ' XP — ' + reason);
+  animateXPBar();
+  renderIdentityBanner();
+  checkLevelUp();
+}
+
+function checkLevelUp() {
+  if (state.level < 5 && state.xp >= state.xpThresholds[state.level]) {
+    state.level++;
+    renderTopBar();
+    renderPathMap();
+    showLevelUp();
+    logActivity('Level up! Now: Level ' + state.level + ' — ' + (state.pathLevels[state.level - 1]?.title || ''));
+  }
+}
+
+function showLevelUp() {
+  const lvl = state.pathLevels[state.level - 1];
+  document.getElementById('lu-lvl').textContent  = 'Level ' + state.level + ': ' + (lvl?.title || '');
+  document.getElementById('lu-desc').textContent = lvl?.description || '';
+  const modal = document.getElementById('levelup-modal');
+  modal.style.display = 'flex'; modal.style.opacity = '1';
+  setTimeout(dismissLevelUp, 5000);
+}
+
+function dismissLevelUp() {
+  const modal = document.getElementById('levelup-modal');
+  modal.style.opacity = '0';
+  setTimeout(() => { modal.style.display = 'none'; modal.style.opacity = '1'; }, 300);
+}
+
+function completeQuest(i) {
+  if (state.quests[i].completed) return;
+  state.quests[i].completed = true;
+  const q = state.quests[i];
+
+  // Pop animation
+  const card = document.getElementById('qc-' + i);
+  if (card) { card.classList.add('quest-popping'); setTimeout(() => renderQuestBoard(), 580); }
+  else renderQuestBoard();
+
+  addXP(q.xpReward, 'Quest: ' + q.title);
+
+  // Level up a skill
+  const unmax = state.skills.filter(s => s.progress < 5);
+  if (unmax.length) {
+    const sk = unmax[Math.floor(Math.random() * unmax.length)];
+    sk.progress++;
+    logActivity('Skill improved: ' + sk.name);
+    renderSkillTree();
+  }
+}
+
+function logActivity(text) {
+  const now  = new Date();
+  const time = now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+  state.activityLog.push({text, time});
+  if (state.activityLog.length > 20) state.activityLog.shift();
+  renderActivityLog();
+}
+
+function updateStreak() {
+  const today = new Date().toISOString().slice(0, 10);
+  if (!state.lastCheckInDate) {
+    state.streak = 1;
+  } else if (state.lastCheckInDate === today) {
+    return;
+  } else {
+    const last = new Date(state.lastCheckInDate);
+    const yest = new Date(); yest.setDate(yest.getDate() - 1);
+    state.streak = last.toISOString().slice(0,10) === yest.toISOString().slice(0,10)
+      ? state.streak + 1 : 1;
+  }
+  state.lastCheckInDate = today;
+  document.getElementById('streak-num').textContent = state.streak;
+}
+
+
+// ═══════════════════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════════════════
+function esc(str) {
+  return String(str)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ═══════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  showView('view-hero');
+  initCarousel();
+});
+</script>
+</body>
+</html>
